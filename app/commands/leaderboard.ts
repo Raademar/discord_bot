@@ -38,16 +38,25 @@ const getLeaderboard = async (array: any, message: any) => {
 module.exports = {
   name: 'leaderboard',
   aliases: ['stats', 'statistics', 'levels', 'lvls'],
-  args: false,
+  args: true,
   async execute(message: any, args: string[]) {
     guild = args[0]
+    if (args.length > 1) {
+      guild = args.join(' ')
+      console.log(guild)
+    }
     await fetch(
-      `https://eu.api.blizzard.com/wow/guild/Stormscale/${guild}?fields=members&locale=en_US&access_token=${
+      `https://eu.api.blizzard.com/wow/guild/Stormscale/${encodeURIComponent(
+        guild
+      )}?fields=members&locale=en_US&access_token=${
         process.env.BLIZZARD_ACCESS_TOKEN_US
       }`
     )
       .then((res: any) => res.json())
-      .then((data: any) => getLeaderboard(data, message))
+      .then((data: any) => {
+        console.log(data)
+        getLeaderboard(data, message).catch(error => console.error(error))
+      })
       .catch((err: any) => console.error(err))
   }
 }
