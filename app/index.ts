@@ -1,7 +1,8 @@
 const path = require('path')
 const fs = require('fs')
+export const fetch = require('node-fetch')
 require('dotenv').config()
-const Discord = require('discord.js')
+export const Discord = require('discord.js')
 export const { prefix } = require('../config.json')
 
 const client = new Discord.Client()
